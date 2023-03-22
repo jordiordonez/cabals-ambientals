@@ -1,16 +1,16 @@
 library(dplyr)
 library(lubridate)
 
-cabals<-read.csv("sample.csv", header=TRUE,sep=',')
+file="sample.csv"
+cabals<-read.csv(file, header=TRUE,sep=',')
 
 #Recuperem els anys per obtenir valors diaris consecutius per anys 
-cabals<-mutate(cabals,any = year(as.Date(Fecha,"%d/%m/%Y")))
+cabals<-cabals %>% 
+  mutate(Year = year(as.Date(Fecha,"%d/%m/%Y")),
+         Media=as.numeric(sub(",",".",cabals$Media))) %>%
+  select(Year,Media)
 
-#Eliminem la columna Fecha 
-cabals<-cabals[,-c(1)]
 
-#Fem que Media siguin considerats com a numèrics després de substituir la , per .
-cabals<-mutate(cabals,Media=as.numeric(sub(",",".",cabals$Media)))
 
 #Per cada j=1 a 100 Creo un resum amb mitjanes mòbils d'ordre j
 #Per cada any i escullo els mínims per cada any per aquestes mitjanes d'ordre j 
