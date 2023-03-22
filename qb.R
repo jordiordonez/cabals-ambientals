@@ -21,9 +21,10 @@ Qb_Year=NULL
 for (Year in Year_init:Year_final){
   ratio=NULL
   min_values=NULL  
+  year_days=sum(flows$Year==Year)
   for (order in 1:Max_order){
     means_order=NULL
-    Last_day=sum(flows$Year==Year)-order+1
+    Last_day=year_days-order+1
     for (Day in 1:Last_day){
       End_day=Day+order-1
       means_order[Day]=mean(flows[flows$Year==Year,]$Media[Day:End_day])}
