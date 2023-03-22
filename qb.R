@@ -6,12 +6,12 @@ Year_init=2011
 Year_final=2020
 Max_order=100
 
-cabals<-read.csv(file, header=TRUE,sep=',')
+flows<-read.csv(file, header=TRUE,sep=',')
 
 
-cabals<-cabals %>% 
+flows<-flows %>% 
   mutate(Year = year(as.Date(Fecha,"%d/%m/%Y")),
-         Media=as.numeric(sub(",",".",cabals$Media))) %>%
+         Media=as.numeric(sub(",",".",flows$Media))) %>%
   select(Year,Media)
 
 
@@ -23,10 +23,10 @@ for (Year in Year_init:Year_final){
   min_values=NULL  
   for (order in 1:Max_order){
     means_order=NULL
-    Last_day=sum(cabals$Year==Year)-order+1
+    Last_day=sum(flows$Year==Year)-order+1
     for (Day in 1:Last_day){
       End_day=Day+order-1
-      means_order[Day]=mean(cabals[cabals$Year==Year,]$Media[Day:End_day])}
+      means_order[Day]=mean(flows[flows$Year==Year,]$Media[Day:End_day])}
     min_values[order]=min(means_order)}
   for (order in 1:(Max_order-1)){
     if (min_values[order]!=0){
@@ -40,4 +40,4 @@ for (Year in Year_init:Year_final){
 
 Qb=mean(Qb_Year)
   
-print(paste('El cabal base és',Qb,'m3/s'))
+print(paste('Base flow is ',Qb,'m3/s'))
