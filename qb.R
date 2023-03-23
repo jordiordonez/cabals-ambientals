@@ -40,14 +40,14 @@ Qb_year <- function(min_values) {
 
 Qb <- function(flows, year_init, year_final) {
   Qb_years <- NULL
-  for (Year in year_init:year_final) {
+  for (year in year_init:year_final) {
     min_values <- NULL
-    year_days <- sum(flows$Year == Year)
+    year_days <- sum(flows$Year == year)
     for (order in 1:max_order) {
-      min_values[order] <- min_value(Year, order,
+      min_values[order] <- min_value(year, order,
                                     year_days, flows)
     }
-    Qb_years[Year - (year_init) + 1] <- Qb_year(min_values)
+    Qb_years[year - (year_init) + 1] <- Qb_year(min_values)
   }
   Qb <- mean(Qb_years)
   return(Qb)
